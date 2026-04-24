@@ -8,3 +8,12 @@
 
 ## install / run
 simpily install the requirements.txt and run main.py
+
+### or
+
+pull the docker image
+ ``` 
+ docker pull ghcr.io/ocueye2/gridfinder:latest
+```
+
+It uses port 8080 for the webui so you can use `http://localhost:8080` to view the dashboard

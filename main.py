@@ -3,8 +3,11 @@ import submod.imagegen as image
 import submod.dbman as dbman
 import json
 import ast
+from waitress import serve
 
-app = Flask("gridfinder","/static","static")
+
+
+app = Flask(__name__,"/static","static")
 
 @app.route("/", methods=['GET'])
 def index():
@@ -100,4 +103,4 @@ def search():
 
     return render_template("search.html",items=results)
 if __name__ == "__main__":
-    app.run(debug=True)
+    serve(app, host="0.0.0.0", port=8080)

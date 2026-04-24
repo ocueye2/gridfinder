@@ -1,0 +1,8 @@
+
+{% for item in items %}
+
+<a alt="item" href="item/{item.id}">
+    <img src="api/render?xs={{xs}}&ys={{ys}}&points={{points}}" alt="">
+    {{item.name}}
+</a>
+{% endfor %}

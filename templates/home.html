@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<head>
+    <title>Home</title>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
+</head>
+<body>
+    <input type="text" name="q"
+    hx-get="api/search"
+    hx-trigger="keyup changed"
+    hx-target="#search-results"
+    placeholder="Search...">
+<div id="search-results"></div>
+</body>

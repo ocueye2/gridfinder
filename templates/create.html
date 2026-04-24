@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <style>
+        :root {
+            --border-color: #e1e4e8;
+            --bg-soft: #f6f8fa;
+            --text-main: #24292e;
+            --text-muted: #57606a;
+            --accent: #0366d6;
+            --accent-hover: #0255b3;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-soft);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 32px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 32px;
+            right: 32px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: var(--white);
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(3,102,214,0.1);
+        }
+
+        .box {
+            background: var(--bg-soft);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none; }
+
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .row input { flex: 1; }
+
+        /* Buttons */
+        button {
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #2da44e; /* Success green for creation */
+            color: white;
+            border-color: rgba(27,31,35,0.15);
+            padding: 12px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #2c974b;
+        }
+
+        .add-btn {
+            background: var(--white);
+            color: var(--text-main);
+            font-size: 13px;
+        }
+
+        .add-btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* Points List (Chips) */
+        #pointsList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .point {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: ui-monospace, SFMono-Regular, monospace;
+            border: 1px solid var(--border-color);
+        }
+
+        .remove-point {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .remove-point:hover {
+            color: #cf222e;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <a href="." class="back-link">← Back</a>
+    <h2>Create New Layout</h2>
+
+    <form action="api/create" method="get">
+        <div class="field-group">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="Enter name..." required>
+        </div>
+
+        <div class="field-group">
+            <label>Type</label>
+            <select name="type" id="type" onchange="updateForm()">
+                <option value="grid">Grid Layout</option>
+                <option value="item">Custom Item</option>
+            </select>
+        </div>
+
+        <div id="gridForm" class="box">
+            <div class="row">
+                <div class="field-group" style="flex:1">
+                    <label>Width (X)</label>
+                    <input type="number" name="xs" placeholder="0">
+                </div>
+                <div class="field-group" style="flex:1">
+                    <label>Height (Y)</label>
+                    <input type="number" name="ys" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <div id="itemForm" class="box hidden">
+            <div class="field-group">
+                <label>Target Grid ID</label>
+                <input type="number" name="gridid" placeholder="ID #">
+            </div>
+
+            <div class="field-group">
+                <label>Add Coordinates</label>
+                <div class="row">
+                    <input type="number" id="x" placeholder="X">
+                    <input type="number" id="y" placeholder="Y">
+                    <button type="button" class="add-btn" onclick="addPoint()">Add</button>
+                </div>
+            </div>
+
+            <div id="pointsList"></div>
+            <input type="hidden" name="points" id="pointsInput">
+        </div>
+
+        <button type="submit">Create Configuration</button>
+    </form>
+</div>
+
+<script>
+    function updateForm() {
+        const type = document.getElementById("type").value;
+        document.getElementById("gridForm").classList.toggle("hidden", type !== "grid");
+        document.getElementById("itemForm").classList.toggle("hidden", type !== "item");
+    }
+
+    let points = [];
+
+    function updatePointsUI() {
+        const list = document.getElementById("pointsList");
+        const input = document.getElementById("pointsInput");
+        list.innerHTML = "";
+
+        points.forEach((p, i) => {
+            const div = document.createElement("div");
+            div.className = "point";
+            div.innerHTML = `
+                <span>${p[0]}, ${p[1]}</span>
+                <button type="button" class="remove-point" onclick="removePoint(${i})">&times;</button>
+            `;
+            list.appendChild(div);
+        });
+
+        input.value = JSON.stringify(points);
+    }
+
+    function addPoint() {
+        const xInput = document.getElementById("x");
+        const yInput = document.getElementById("y");
+        const x = parseInt(xInput.value);
+        const y = parseInt(yInput.value);
+
+        if (isNaN(x) || isNaN(y)) return;
+
+        points.push([x, y]);
+        xInput.value = "";
+        yInput.value = "";
+        xInput.focus();
+        updatePointsUI();
+    }
+
+    function removePoint(index) {
+        points.splice(index, 1);
+        updatePointsUI();
+    }
+
+    updateForm();
+    updatePointsUI();
+</script>
+
+</body>
+</html>

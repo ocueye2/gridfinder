@@ -40,15 +40,14 @@ with DB() as db:
 
 class grid:
     def create(name,x,y):
-        print(f"{name}:{x}:{y}")
         with DB() as db:
             db.execute("INSERT INTO grids (name, size) VALUES (?, ?)",
             (name,str({"x":x,"y":y}),))
 
     def search(term,count=20):
         with DB() as db:
-            rows = db.execute("SELECT * FROM grids WHERE name LIKE ?",(f"%{term}%",))
-            return rows[count:]
+            rows = list(db.execute("SELECT * FROM grids WHERE name LIKE ?",(f"%{term}%",)))
+            return rows
     
     def delete(id):
         with DB() as db:
@@ -69,8 +68,8 @@ class item:
     def search(term,count=20):
         with DB() as db:
             db.execute("SELECT * FROM items WHERE name LIKE ?",(f"%{term}%",))
-            rows = db.fetchall()
-        return rows[count:]
+            rows = list(db.fetchall())
+        return rows
     
     def delete(id):
         with DB() as db:

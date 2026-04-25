@@ -1,5 +1,5 @@
 # Gridfinder
-## orginise your gridfinity
+## filter through your gridfinity
 
 <image src="repomedia/example.png">
 ## install / run
